@@ -1,6 +1,5 @@
 import css from './SearchBar.module.css';
 import toast, { Toaster } from 'react-hot-toast';
-import icons from '../../assets/react.svg';
 
 export default function SearchBar({ onSearch }) {
   const handleSubmit = evt => {
@@ -45,7 +44,7 @@ export default function SearchBar({ onSearch }) {
         <button className={css.btn} type="submit">
           Search
           <svg className="icon" width="16" height="16">
-            <use href="/src/img/icons.svg#icon-search"></use>
+            <use href="/icons.svg#icon-search"></use>
           </svg>
         </button>
       </form>

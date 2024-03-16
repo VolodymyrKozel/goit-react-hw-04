@@ -13,7 +13,7 @@ export default function ImageModal({ closeModal, modalIsOpen, currentImage }) {
         contentLabel="Full image">
         <button className={css.btn} onClick={closeModal}>
           <svg className="icon-close" width="20" height="20">
-            <use href="/src/img/icons.svg#icon-menu-close"></use>
+            <use href="/icons.svg#icon-menu-close"></use>
           </svg>
         </button>
         <img

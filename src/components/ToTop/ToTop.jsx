@@ -6,7 +6,7 @@ export default function ToTop() {
   return (
     <button className={css['circle-ripple']} onClick={handleScrollTop}>
       <svg className="icon" width="16" height="16">
-        <use href="/src/img/icons.svg#icon-scroll-up"></use>
+        <use href="/icons.svg#icon-scroll-up"></use>
       </svg>
     </button>
   );
