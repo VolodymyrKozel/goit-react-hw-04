@@ -1,5 +1,5 @@
 .img {
-  max-width: 100%;
+  width: 200px;
   height: 200px;
   object-fit: cover;
   transition: transform 400ms ease-in;

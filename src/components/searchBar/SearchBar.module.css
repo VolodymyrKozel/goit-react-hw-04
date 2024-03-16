@@ -1,5 +1,7 @@
 .header {
   padding: 16px 0;
+  box-shadow: 0 4px 8px hsla(230, 72%, 32%, 0.4);
+  margin-bottom: 1rem;
 }
 .form {
   justify-content: center;
@@ -8,6 +10,7 @@
   gap: 32px;
 }
 .input {
+  width: fit-content;
   padding: 0.5em 1em;
   font-size: 1rem;
   line-height: 1.5;
