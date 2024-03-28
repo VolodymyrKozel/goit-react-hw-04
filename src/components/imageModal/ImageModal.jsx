@@ -1,5 +1,5 @@
-import css from './ImageModal.module.css';
 import Modal from 'react-modal';
+import css from './ImageModal.module.css';
 
 Modal.setAppElement('#root');
 export default function ImageModal({ closeModal, modalIsOpen, currentImage }) {
@@ -16,9 +16,10 @@ export default function ImageModal({ closeModal, modalIsOpen, currentImage }) {
             <use href="/icons.svg#icon-menu-close"></use>
           </svg>
         </button>
+
         <img
           className={css.imgModal}
-          src={currentImage.urls.full}
+          src={currentImage.urls.regular}
           alt={currentImage.alt_description}
         />
       </Modal>

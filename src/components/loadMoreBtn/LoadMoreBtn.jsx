@@ -1,9 +1,16 @@
 import css from './LoadMoreBtn.module.css';
-
-export default function LoadMoreBtn({ handleLoadMore }) {
+Loader;
+import useScrollOnRender from '../hooks/useScrollOnRender';
+import Loader from '../Loader/Loader';
+export default function LoadMoreBtn({ handleLoadMore, loading }) {
+  let moreRef = useScrollOnRender();
   return (
-    <button className={css.btn} type="button" onClick={handleLoadMore}>
-      Load more
+    <button
+      ref={moreRef}
+      className={css.btn}
+      type="button"
+      onClick={handleLoadMore}>
+      {!loading ? 'Load more' : <Loader width={20} height={20} />}
     </button>
   );
 }

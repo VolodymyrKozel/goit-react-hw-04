@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import getImagesAPI from './components/GetImagesAPI';
 import SearchBar from './components/SearchBar/SearchBar';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
@@ -11,7 +11,8 @@ import ToTop from './components/ToTop/ToTop';
 import './App.css';
 
 function App() {
-  const [images, setImages] = useState([]);
+  const btnRef = useRef(null);
+  const [images, setImages] = useState(null);
   const [toTop, setToTop] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -24,12 +25,6 @@ function App() {
     perPage: 10,
     client_id: '5oq-O0l79UtWEfgesuk7FNxEhMjgmglWAfYeOAPGJFs',
   });
-  function scrollBehavior() {
-    scrollBy({
-      top: window.innerHeight,
-      behavior: 'smooth',
-    });
-  }
 
   function openModal() {
     setModalIsOpen(true);
@@ -39,7 +34,6 @@ function App() {
   }
 
   const handleSearch = ({ query, perPage = 10, order }) => {
-    setImages([]);
     setParamRequest(prevParams => ({
       ...prevParams,
       query: query,
@@ -48,16 +42,20 @@ function App() {
       order_by: order,
     }));
   };
+  function handleScrollUp() {
+    window.scrollY > 80 ? setToTop(true) : setToTop(false);
+  }
   useEffect(() => {
-    window.addEventListener('scroll', () => {
-      window.scrollY > 80 ? setToTop(true) : setToTop(false);
-    });
+    window.addEventListener('scroll', handleScrollUp);
+    return () => {
+      window.removeEventListener('scroll', handleScrollUp);
+    };
   }, []);
 
   useEffect(() => {
     if (paramsRequest.query === '') return; // prevent fetch on mount
     fetchImages();
-  }, [paramsRequest]);
+  }, [paramsRequest.page, paramsRequest.query]);
 
   const fetchImages = async () => {
     try {
@@ -69,33 +67,31 @@ function App() {
         ? setImages(data.results)
         : setImages(pImg => [...pImg, ...data.results]);
     } catch (error) {
-      console.log(error);
       setError(error);
     } finally {
       setLoading(false);
     }
   };
-  const handleLoadMore = () => {
+  function handleLoadMore() {
     setParamRequest(prevParams => ({
       ...prevParams,
       page: prevParams.page + 1,
     }));
-  };
+  }
   return (
     <div>
       <SearchBar onSearch={handleSearch} />
       {error && <ErrorMessage error={error} />}
-      {images.length > 0 && (
+      {images && (
         <ImageGallery
           images={images}
           openModal={openModal}
           setCurrentImage={setCurrentImage}
         />
       )}
-      {loading && <Loader />}
-
+      {loading && paramsRequest.page === 1 && <Loader />}
       {totalPages > 1 && paramsRequest.page < totalPages ? (
-        <LoadMoreBtn handleLoadMore={handleLoadMore} />
+        <LoadMoreBtn handleLoadMore={handleLoadMore} loading={loading} />
       ) : null}
       <ImageModal
         closeModal={closeModal}
