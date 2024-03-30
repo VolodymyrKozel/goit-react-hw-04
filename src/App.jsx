@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import getImagesAPI from './components/GetImagesAPI';
 import SearchBar from './components/searchBar/SearchBar';
-import ErrorMessage from './components/ErrorMessage/ErrorMessage';
+import ErrorMessage from './components/errorMessage/ErrorMessage';
 import Loader from './components/Loader/Loader';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import ImageModal from './components/ImageModal/ImageModal';
