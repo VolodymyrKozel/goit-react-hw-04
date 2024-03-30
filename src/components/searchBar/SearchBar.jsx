@@ -1,7 +1,7 @@
 import css from './SearchBar.module.css';
 import toast, { Toaster } from 'react-hot-toast';
 
-export default function SearchBar({ onSearch }) {
+function SearchBar({ onSearch }) {
   const handleSubmit = evt => {
     evt.preventDefault();
     const form = evt.target;
@@ -38,3 +38,4 @@ export default function SearchBar({ onSearch }) {
     </header>
   );
 }
+export default SearchBar;
