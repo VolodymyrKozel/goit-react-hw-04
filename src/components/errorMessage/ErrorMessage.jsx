@@ -1,6 +1,6 @@
 import css from './ErrorMessage.module.css';
 
-export default function ErrorMessage({ error }) {
+function ErrorMessage({ error }) {
   return (
     <div className={css.container}>
       <h1 className={css.heading}>
@@ -12,3 +12,4 @@ export default function ErrorMessage({ error }) {
     </div>
   );
 }
+export default ErrorMessage;
