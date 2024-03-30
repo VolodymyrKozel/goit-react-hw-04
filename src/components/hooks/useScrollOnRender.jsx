@@ -6,9 +6,13 @@ function useScrollOnRender() {
 
   useEffect(() => {
     if (ref.current) {
-      ref.current.scrollIntoView({ behavior: 'smooth' });
+      window.scrollBy({
+        top: 350,
+        behavior: 'smooth',
+      });
     }
-  }, []);
+    return () => {};
+  });
 
   return ref;
 }

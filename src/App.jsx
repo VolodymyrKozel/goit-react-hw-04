@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import getImagesAPI from './components/GetImagesAPI';
 import SearchBar from './components/SearchBar/SearchBar';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
@@ -11,7 +11,6 @@ import ToTop from './components/ToTop/ToTop';
 import './App.css';
 
 function App() {
-  const btnRef = useRef(null);
   const [images, setImages] = useState(null);
   const [toTop, setToTop] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -33,13 +32,11 @@ function App() {
     setModalIsOpen(false);
   }
 
-  const handleSearch = ({ query, perPage = 10, order }) => {
+  const handleSearch = ({ query }) => {
     setParamRequest(prevParams => ({
       ...prevParams,
       query: query,
-      per_page: perPage,
       page: 1,
-      order_by: order,
     }));
   };
   function handleScrollUp() {
@@ -50,7 +47,7 @@ function App() {
     return () => {
       window.removeEventListener('scroll', handleScrollUp);
     };
-  }, []);
+  }, [top]);
 
   useEffect(() => {
     if (paramsRequest.query === '') return; // prevent fetch on mount
@@ -72,6 +69,10 @@ function App() {
       setLoading(false);
     }
   };
+  function handleOpenModal(image) {
+    setCurrentImage(image);
+    openModal();
+  }
   function handleLoadMore() {
     setParamRequest(prevParams => ({
       ...prevParams,
@@ -83,11 +84,7 @@ function App() {
       <SearchBar onSearch={handleSearch} />
       {error && <ErrorMessage error={error} />}
       {images && (
-        <ImageGallery
-          images={images}
-          openModal={openModal}
-          setCurrentImage={setCurrentImage}
-        />
+        <ImageGallery handleOpenModal={handleOpenModal} images={images} />
       )}
       {loading && paramsRequest.page === 1 && <Loader />}
       {totalPages > 1 && paramsRequest.page < totalPages ? (

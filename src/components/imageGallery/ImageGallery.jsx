@@ -1,11 +1,7 @@
 import ImageCard from '../ImageCard/ImageCard';
 import css from './ImageGallery.module.css';
 
-export default function ImageGallery({ images, openModal, setCurrentImage }) {
-  function handleOpenModal(image) {
-    setCurrentImage(image);
-    openModal();
-  }
+export default function ImageGallery({ images, handleOpenModal }) {
   return (
     <div className="container">
       <ul className={css.list}>
