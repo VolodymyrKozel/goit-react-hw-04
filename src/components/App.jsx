@@ -6,6 +6,7 @@ import Loader from './Loader/Loader';
 import ImageGallery from './ImageGallery/ImageGallery';
 import ImageModal from './ImageModal/ImageModal';
 import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
+import useToggle from './hooks/useToggle';
 import ToTop from './ToTop/ToTop';
 
 import './App.css';
@@ -15,7 +16,6 @@ function App() {
   const [toTop, setToTop] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState({});
   const [totalPages, setTotalPages] = useState(1);
   const [paramsRequest, setParamRequest] = useState({
@@ -24,13 +24,7 @@ function App() {
     perPage: 10,
     client_id: '5oq-O0l79UtWEfgesuk7FNxEhMjgmglWAfYeOAPGJFs',
   });
-
-  function openModal() {
-    setModalIsOpen(true);
-  }
-  function closeModal() {
-    setModalIsOpen(false);
-  }
+  const { isOpen, open, close } = useToggle();
 
   const handleSearch = ({ query }) => {
     setParamRequest(prevParams => ({
@@ -47,7 +41,7 @@ function App() {
     return () => {
       window.removeEventListener('scroll', handleScrollUp);
     };
-  }, [top]);
+  }, []);
 
   useEffect(() => {
     if (paramsRequest.query === '') return; // prevent fetch on mount
@@ -71,7 +65,7 @@ function App() {
   };
   function handleOpenModal(image) {
     setCurrentImage(image);
-    openModal();
+    open();
   }
   function handleLoadMore() {
     setParamRequest(prevParams => ({
@@ -91,8 +85,8 @@ function App() {
         <LoadMoreBtn handleLoadMore={handleLoadMore} loading={loading} />
       ) : null}
       <ImageModal
-        closeModal={closeModal}
-        modalIsOpen={modalIsOpen}
+        closeModal={close}
+        modalIsOpen={isOpen}
         currentImage={currentImage}
       />
       {toTop && <ToTop />}
